@@ -1,2 +1,0 @@
-# TRAFFIC-SIGNALS-MANAGEMENT-SYSTEMS-DURING-EMERGENCY-CONDITIONS-FOR-AMBULANCE-USING-SOUND-SENSOR
-Developed a Traffic Signal Management System to prioritize ambulance passage during emergency situations. Integrated a 700 Hz sound sensor to detect ambulance sirens and dynamically adjust traffic signals. Deployed dual IR sensors to monitor traffic density at a 4-way junction for optimized signal control.
