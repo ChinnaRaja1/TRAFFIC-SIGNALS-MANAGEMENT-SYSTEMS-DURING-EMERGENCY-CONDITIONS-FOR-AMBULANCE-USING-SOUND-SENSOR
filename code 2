@@ -1,0 +1,102 @@
+// Traffic light pins
+int r1 = 2, y1 = 3, g1 = 4;  // North
+int r2 = 5, y2 = 6, g2 = 7;  // East
+int r3 = 8, y3 = 9, g3 = 10; // South
+int r4 = 11, y4 = 12, g4 = 13; // West
+
+// IR sensor pins
+int ir1 = 16, ir2 = 17;  // North
+int ir3 = 18, ir4 = 19;  // South
+
+void setup() {
+    Serial.begin(9600);
+
+    // Set traffic lights as OUTPUT
+    pinMode(r1, OUTPUT); pinMode(y1, OUTPUT); pinMode(g1, OUTPUT);
+    pinMode(r2, OUTPUT); pinMode(y2, OUTPUT); pinMode(g2, OUTPUT);
+    pinMode(r3, OUTPUT); pinMode(y3, OUTPUT); pinMode(g3, OUTPUT);
+    pinMode(r4, OUTPUT); pinMode(y4, OUTPUT); pinMode(g4, OUTPUT);
+
+    // Set IR sensors as INPUT
+    pinMode(ir1, INPUT);
+    pinMode(ir2, INPUT);
+    pinMode(ir3, INPUT);
+    pinMode(ir4, INPUT);
+
+    resetSignals();
+}
+
+void loop() {
+    bool northDetected = checkNorth();
+    bool southDetected = checkSouth();
+
+    if (!northDetected && !southDetected) {
+        // If no traffic is detected, follow normal sequence
+        Serial.println("No traffic detected. Running normal sequence.");
+        normalSequence();
+    }
+}
+
+// Reset all signals to RED
+void resetSignals() {
+    digitalWrite(r1, HIGH); digitalWrite(y1, LOW); digitalWrite(g1, LOW);
+    digitalWrite(r2, HIGH); digitalWrite(y2, LOW); digitalWrite(g2, LOW);
+    digitalWrite(r3, HIGH); digitalWrite(y3, LOW); digitalWrite(g3, LOW);
+    digitalWrite(r4, HIGH); digitalWrite(y4, LOW); digitalWrite(g4, LOW);
+}
+
+// Check if IR is continuously HIGH for a given time
+bool checkIR(int irPin, int duration) {
+    unsigned long startTime = millis();
+    while (millis() - startTime < duration) {
+        if (digitalRead(irPin) == LOW) {
+            return false;  // Reset if IR goes LOW before time completes
+        }
+    }
+    return true;
+}
+
+// Check for North Traffic
+bool checkNorth() {
+    if (checkIR(ir1, 5000) && checkIR(ir2, 3000)) {
+        Serial.println("Heavy traffic detected at NORTH. Switching lights.");
+        activateSignal(g1, r1, y1);
+        return true;
+    }
+    return false;
+}
+
+// Check for South Traffic
+bool checkSouth() {
+    if (checkIR(ir3, 5000) && checkIR(ir4, 3000)) {
+        Serial.println("Heavy traffic detected at SOUTH. Switching lights.");
+        activateSignal(g3, r3, y3);
+        return true;
+    }
+    return false;
+}
+
+// Activate green light for specific road
+void activateSignal(int green, int red, int yellow) {
+    resetSignals();
+    digitalWrite(red, LOW);
+    digitalWrite(green, HIGH);
+    delay(5000);  // Green light ON for 5 sec
+    digitalWrite(green, LOW);
+
+    digitalWrite(yellow, HIGH);
+    delay(2000);  // Yellow light ON for 2 sec
+    digitalWrite(yellow, LOW);  // FIX: Ensure yellow light turns OFF
+
+    resetSignals();  // Reset back to normal state
+}
+
+// Normal Traffic Sequence
+void normalSequence() {
+    Serial.println("Running normal traffic sequence...");
+
+    activateSignal(g1, r1, y1); // North
+    activateSignal(g3, r3, y3); // South
+    activateSignal(g2, r2, y2); // East
+    activateSignal(g4, r4, y4); // West
+}
