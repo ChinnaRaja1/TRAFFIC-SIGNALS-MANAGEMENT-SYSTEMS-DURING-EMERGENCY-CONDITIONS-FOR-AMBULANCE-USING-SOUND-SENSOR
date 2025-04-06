@@ -1,0 +1,177 @@
+int r1 = 2;
+int y1 = 3;
+int g1 = 4;
+int r2 = 5;
+int y2 = 6;
+int g2 = 7;
+int r3 = 8;
+int y3 = 9;
+int g3 = 10;
+int r4 = 11;
+int y4 = 12;
+int g4 = 13;
+
+const int s1 = 14;
+const int s2 = 15;
+
+int ir1 = 16;
+int ir2 = 17;
+int ir3 = 18;
+int ir4 = 19;
+
+void setup() {
+    pinMode(r1, OUTPUT);
+    pinMode(y1, OUTPUT);
+    pinMode(g1, OUTPUT);
+    pinMode(r2, OUTPUT);
+    pinMode(y2, OUTPUT);
+    pinMode(g2, OUTPUT);
+    pinMode(r3, OUTPUT);
+    pinMode(y3, OUTPUT);
+    pinMode(g3, OUTPUT);
+    pinMode(r4, OUTPUT);
+    pinMode(y4, OUTPUT);
+    pinMode(g4, OUTPUT);
+
+    pinMode(s1, INPUT);
+    pinMode(s2, INPUT);
+
+    pinMode(ir1, INPUT);
+    pinMode(ir2, INPUT);
+    pinMode(ir3, INPUT);
+    pinMode(ir4, INPUT);
+
+}
+
+void loop() {
+    road1();
+    check();
+    road2();
+    check();
+    road3();
+    check();
+    road4();
+    check();
+}
+
+void road1(){
+    //G1
+    digitalWrite(g1, HIGH);
+    digitalWrite(g2, LOW);
+    digitalWrite(g3, LOW);
+    digitalWrite(g4, LOW);
+    digitalWrite(r1, LOW);
+    digitalWrite(r2, HIGH);
+    digitalWrite(r3, HIGH);
+    digitalWrite(r4, HIGH);
+    digitalWrite(y1, LOW);
+    digitalWrite(y2, LOW);
+    digitalWrite(y3, LOW);
+    digitalWrite(y4, LOW);
+    delay(5000); // Green for 5 seconds
+    //Y1
+    digitalWrite(g1, LOW);
+    digitalWrite(y1, HIGH);
+    delay(2000); // Yellow for 2 seconds
+}
+void road2(){
+    //G2
+    digitalWrite(g1, LOW);
+    digitalWrite(g2, HIGH);
+    digitalWrite(g3, LOW);
+    digitalWrite(g4, LOW);
+    digitalWrite(r1, HIGH);
+    digitalWrite(r2, LOW);
+    digitalWrite(r3, HIGH);
+    digitalWrite(r4, HIGH);
+    digitalWrite(y1, LOW);
+    digitalWrite(y2, LOW);
+    digitalWrite(y3, LOW);
+    digitalWrite(y4, LOW);
+    delay(5000); // Green for 5 seconds
+    //Y1
+    digitalWrite(g2, LOW);
+    digitalWrite(y2, HIGH);
+    delay(2000); // Yellow for 2 seconds
+}
+void road3(){
+    //G3
+    digitalWrite(g1, LOW);
+    digitalWrite(g2, LOW);
+    digitalWrite(g3, HIGH);
+    digitalWrite(g4, LOW);
+    digitalWrite(r1, HIGH);
+    digitalWrite(r2, HIGH);
+    digitalWrite(r3, LOW);
+    digitalWrite(r4, HIGH);
+    digitalWrite(y1, LOW);
+    digitalWrite(y2, LOW);
+    digitalWrite(y3, LOW);
+    digitalWrite(y4, LOW);
+    delay(5000); // Green for 5 seconds
+    //Y1
+    digitalWrite(g3, LOW);
+    digitalWrite(y3, HIGH);
+    delay(2000); // Yellow for 2 seconds
+}
+void road4(){
+    //G4
+    digitalWrite(g1, LOW);
+    digitalWrite(g2, LOW);
+    digitalWrite(g3, LOW);
+    digitalWrite(g4, HIGH);
+    digitalWrite(r1, HIGH);
+    digitalWrite(r2, HIGH);
+    digitalWrite(r3, HIGH);
+    digitalWrite(r4, LOW);
+    digitalWrite(y1, LOW);
+    digitalWrite(y2, LOW);
+    digitalWrite(y3, LOW);
+    digitalWrite(y4, LOW);
+    delay(5000); // Green for 5 seconds
+    //Y1
+    digitalWrite(g4, LOW);
+    digitalWrite(y4, HIGH);
+    delay(2000); // Yellow for 2 seconds
+}
+void check(){
+    if ((digitalRead(s1) == HIGH) || (digitalRead(ir1) == LOW && digitalRead(ir2) == LOW)) {
+        //G1
+    digitalWrite(g1, HIGH);
+    digitalWrite(g2, LOW);
+    digitalWrite(g3, LOW);
+    digitalWrite(g4, LOW);
+    digitalWrite(r1, LOW);
+    digitalWrite(r2, HIGH);
+    digitalWrite(r3, HIGH);
+    digitalWrite(r4, HIGH);
+    digitalWrite(y1, LOW);
+    digitalWrite(y2, LOW);
+    digitalWrite(y3, LOW);
+    digitalWrite(y4, LOW);
+    delay(5000); // Green for 5 seconds
+    //Y1
+    digitalWrite(g1, LOW);
+    digitalWrite(y1, HIGH);
+    delay(2000); // Yellow for 2 seconds
+    } else if ((digitalRead(s2) == HIGH) || (digitalRead(ir3) == LOW && digitalRead(ir4) == LOW)) {
+        //G2
+    digitalWrite(g1, LOW);
+    digitalWrite(g2, HIGH);
+    digitalWrite(g3, LOW);
+    digitalWrite(g4, LOW);
+    digitalWrite(r1, HIGH);
+    digitalWrite(r2, LOW);
+    digitalWrite(r3, HIGH);
+    digitalWrite(r4, HIGH);
+    digitalWrite(y1, LOW);
+    digitalWrite(y2, LOW);
+    digitalWrite(y3, LOW);
+    digitalWrite(y4, LOW);
+    delay(5000); // Green for 5 seconds
+    //Y1
+    digitalWrite(g2, LOW);
+    digitalWrite(y2, HIGH);
+    delay(2000); // Yellow for 2 seconds
+    }
+}
